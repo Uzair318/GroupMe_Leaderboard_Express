@@ -33,6 +33,24 @@ app.get('/scores', (req, res) => {
 
 })
 
+app.get('/highestPost', (req, res) => {
+  owner = mongo.getOwner();
+  numLikes = mongo.getNumLikes();
+  text = mongo.getText();
+  imgURL = mongo.getURL();
+
+  Promise.all([owner, numLikes, text, imgURL]).then((resultArray) => {
+    resultObject = {
+      "owner": resultArray[0],
+      "numLikes": resultArray[1],
+      "text": resultArray[2],
+      "imgURL": resultArray[3]
+    }
+    res.send(resultObject)
+    console.log("sent highest post object!")
+  })
+
+})
 
 // start listening to the server...
 expressPort = Number(process.env.PORT || 3000)
